@@ -6,8 +6,9 @@ Custom hooks:
 - useCoin
 - useCryptocurrency
   Custom hooks have own state and return the function who modify the state.<br>
-  **useCoin** return state, interface (Select) and function who modifies the state-setState:
-  return [ state, Select, setState ];
+  **useCoin** return state, interface (Select) and function who modifies the state:
+
+                return [ state, Select, setState ];
 
 **CryptoCompare API** from: https://min-api.cryptocompare.com/ <br>
 The API call is made inside of **useEffect** with async, await method and using axios. <br>
