@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from '@emotion/styled';
+import axios from 'axios';
 import image from './cryptomonedas.png';
 import Form from './components/Form';
+import Quote from './components/Quote';
+import Spinner from './components/Spinner';
 
 const Container = styled.div`
   max-width: 900px;
@@ -38,6 +41,44 @@ const Heading = styled.h1`
 `;
 
 function App() {
+
+  // state for amount inputs 
+  const [ amountCoin, setAmountCoin ] = useState('');
+  const [ amountCrypto, setAmountCrypto ] = useState(''); 
+  const [ result, setResult ] = useState({});
+  const [ load, setLoad ] = useState(false);
+
+  useEffect( () => {
+    const quoteCrypto = async () => {
+      // avoid the first execution 
+      if( amountCoin === '' ) return;
+      
+      // API call to obtain the quote
+      const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${amountCrypto}&tsyms=${amountCoin}`;
+
+      const result = await axios.get(url);
+
+      // show the spinner while loading result
+      setLoad(true);
+
+      // hide the spinner when show the result
+      setTimeout( () => {
+
+        // hide spinner
+        setLoad(false);
+        // show quote
+        setResult(result.data.DISPLAY[amountCrypto][amountCoin]);
+
+      }, 2000);
+    }
+    quoteCrypto();
+
+  }, [amountCoin, amountCrypto ]);
+
+  // Show spinner or result. Conditional loading of components
+  // if load is true show the Spinner, if false show Quote
+  const component =  (load)  ? <Spinner /> : <Quote result={result} />
+
   return (
     <Container>
       <div>
@@ -50,9 +91,11 @@ function App() {
         <Heading>
           Instant Cryptocurrency Quote
         </Heading>
-        <Form>
-          
-        </Form>
+        <Form
+          setAmountCoin={setAmountCoin}
+          setAmountCrypto={setAmountCrypto}
+        />
+        {component}
       </div>
     </Container>
   );

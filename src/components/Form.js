@@ -4,6 +4,7 @@ import Error from './Error';
 import useCoin from '../hooks/useCoin';
 import useCryptocurrency from '../hooks/useCryptocurrency';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const Button = styled.input`
     margin-top: 20px;
@@ -22,7 +23,7 @@ const Button = styled.input`
     }
 `;
 
-const Form = () => {
+const Form = ({setAmountCoin, setAmountCrypto}) => {
 
     // state of cryptocurrencies list
     const [ cryptoList, setCryptoList ] = useState([]);
@@ -64,6 +65,8 @@ const Form = () => {
         }
         // send data to main component
         setError(false);
+        setAmountCoin(coin);
+        setAmountCrypto(cryptocurrency);
     }
 
     return (
@@ -81,5 +84,8 @@ const Form = () => {
         </form>
     )
 }
-
+Form.propTypes = {
+    setAmountCoin: PropTypes.func.isRequired,
+    setAmountCrypto: PropTypes.func.isRequired
+}
 export default Form;
