@@ -4,7 +4,8 @@ This app is a cryptocurrency quote simulator, was created in React with custom h
 Custom hooks:
 
 - useCoin
-- useCryptocurrency
+- useCryptocurrency<br>
+
   Custom hooks have own state and return the function who modify the state.<br>
   **useCoin** return state, interface (Select) and function who modifies the state:
 
